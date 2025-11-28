@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import "./App.css";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   const fetchWeather = async (city) => {
     try {
@@ -19,23 +20,32 @@ function App() {
       const data = await response.json();
       console.log("API response:", data);
 
-      if (data.cod === 404) {
-        alert("City not found!");
+      if (data.cod === "404") {
+        setError("City not found. Please try again.");
+        setWeatherData(null);
         return;
       }
 
+      setError(null);
       setWeatherData(data);
 
     } catch (error) {
       console.error("Error fetching data:", error);
+      setError("Something went wrong. Please try again.");
     }
   };
+
+  useEffect(() => {
+    fetchWeather("Toronto");
+  }, []);
 
   return (
     <div className="app">
       <h1>Weather App</h1>
 
       <SearchBar onSearch={fetchWeather} />
+
+      {error && <p className="error-message">{error}</p>}
 
       {weatherData && <WeatherCard data={weatherData} />}
     </div>
