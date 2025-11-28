@@ -45,6 +45,8 @@ function App() {
 
       <SearchBar onSearch={fetchWeather} />
 
+      <p className="hint">Tip: For cities with duplicates, try with country code (e.g london,ca or london,gb)</p>
+
       {error && <p className="error-message">{error}</p>}
 
       {weatherData && <WeatherCard data={weatherData} />}

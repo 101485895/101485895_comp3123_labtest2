@@ -2,13 +2,14 @@ function WeatherCard({ data }) {
   if (!data || !data.main || !data.weather) return null;
 
   const city = data.name;
+  const country = data.sys.country;
   const temp = data.main.temp;
   const desc = data.weather[0].description;
   const icon = data.weather[0].icon;
 
   return (
     <div className="weather-card">
-      <h2>{city}</h2>
+      <h2>{city}, {country}</h2>
 
       <img
         src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
